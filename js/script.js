@@ -1,14 +1,21 @@
 $(document).ready(function() {
 
+  var photos = [];
+
   var Photo = function(url) {
     this.url = url;
+    this.addPhoto();
   };
 
   var Tracker = function() {
-    this.photos = [];
-    if(this.loadLocalData()) {
-      photos = this.loadLocalData();
+    photos = this.loadLocalData();
+    if(!photos.length) {
+      photos = [];
+      console.log("in the no photos loop");
+      initializePhotos();
     }
+    this.renderComparison();
+    this.renderChart();
   };
 
   //Generated a random number between zero and max
@@ -19,20 +26,20 @@ $(document).ready(function() {
   //Picks a random number between zero and the number of photos
   //Deprecated function. To be removed soon.
   Tracker.prototype.pickRandomPhoto = function() {
-    return this.generateRandom(this.photos.length);
+    return this.generateRandom(photos.length);
   };
 
   //Returns an img element for a random photo
   Tracker.prototype.renderRandomPhoto = function() {
-    var random = this.generateRandom(this.photos.length);
-    var photo = '<img src="' + this.photos[random][0].url + '" />' + this.photos[random][1];
+    var random = this.generateRandom(photos.length);
+    var photo = '<img src="' + photos[random][0].url + '" />' + photos[random][1];
     return photo;
   };
 
   //Add a photo to the array along with an int for counting votes.
-  Tracker.prototype.addPhoto = function(photo) {
-    var photoArray = [photo,0];
-    this.photos.push(photoArray);
+  Photo.prototype.addPhoto = function() {
+    var photoArray = [this,0];
+    photos.push(photoArray);
   };
 
   //Display two random photos
@@ -75,8 +82,8 @@ $(document).ready(function() {
   //Gets the index of a photo in the array with a particular url.
   //Returns false if the photo isn't there.
   Tracker.prototype.findPhotoInArray = function(url) {
-    for(var i = 0; i < this.photos.length; i++) {
-      if(this.photos[i][0].url == url) {
+    for(var i = 0; i < photos.length; i++) {
+      if(photos[i][0].url == url) {
         return i;
       }
     }
@@ -86,29 +93,29 @@ $(document).ready(function() {
   //Add a vote for a photo
   Tracker.prototype.incrementVote = function(photo) {
     var index = this.findPhotoInArray(photo);
-    this.photos[index][1]++;
+    photos[index][1]++;
   };
 
   //Remove a vote for a photo
   Tracker.prototype.decrementVote = function(photo) {
     var index = this.findPhotoInArray(photo);
-    this.photos[index][1]--;
+    photos[index][1]--;
   };
 
   //Get the number of votes that a photo currently has
   Tracker.prototype.getVotes = function(photo) {
     var index = this.findPhotoInArray(photo);
-    return this.photos[index][1];
+    return photos[index][1];
   };
 
   //Save the user's array to local storage
   Tracker.prototype.saveLocalData = function() {
-    localStorage.setItem("photos", JSON.stringify(this.photos));
+    localStorage.setItem("photos", JSON.stringify(photos));
   };
 
   //Load the local copy of the array
   Tracker.prototype.loadLocalData = function() {
-    this.photos = JSON.parse(localStorage.getItem("photos"));
+    return JSON.parse(localStorage.getItem("photos"));
   }
 
   //Event listener for the button click
@@ -116,8 +123,8 @@ $(document).ready(function() {
   $('button').hide();
   $('button').click(function() {
     $('button').hide();
-    testTracker.renderComparison();
-    testTracker.renderChart();
+    tracker.renderComparison();
+    tracker.renderChart();
   });
 
   //Attaches an event listener to the images on the page
@@ -132,44 +139,44 @@ $(document).ready(function() {
           otherCat = $("#photo2 img").attr("src");
           if($("#photo1 img").hasClass("highlight")) {
             $(this).removeClass("highlight");
-            testTracker.decrementVote(url);
+            tracker.decrementVote(url);
           } else {
             $(this).addClass("highlight");
-            testTracker.incrementVote(url);
+            tracker.incrementVote(url);
           }
           if($("#photo2 img").hasClass("highlight")) {
             $("#photo2 img").removeClass("highlight");
-            testTracker.decrementVote(otherCat);
+            tracker.decrementVote(otherCat);
           }
           break;
         case "photo2":
           otherCat = $("#photo1 img").attr("src");
           if($("#photo2 img").hasClass("highlight")) {
             $(this).removeClass("highlight");
-            testTracker.decrementVote(url);
+            tracker.decrementVote(url);
           } else {
             $(this).addClass("highlight");
-            testTracker.incrementVote(url);
+            tracker.incrementVote(url);
           }
           if($("#photo1 img").hasClass("highlight")) {
             $("#photo1 img").removeClass("highlight");
-            testTracker.decrementVote(otherCat);
+            tracker.decrementVote(otherCat);
           }
           break;
       }
-      testTracker.renderChart();
+      tracker.renderChart();
     });
   };
 
-
-
-  var testTracker = new Tracker();
-  for(var i = 0; i <= 13; i++) {
-    var photoURL = "img/" + i + ".jpg";
-    var photo = new Photo(photoURL);
-    testTracker.addPhoto(photo);
+  //Initialize the photo array with the preset photos.
+  //For use if there is no local data to go from, or to reset the game.
+  var initializePhotos = function() {
+    for(var i = 0; i <= 13; i++) {
+      var photoURL = "img/" + i + ".jpg";
+      var photo = new Photo(photoURL);
+    };
   };
-  testTracker.renderComparison();
-  testTracker.renderChart();
+
+  var tracker = new Tracker();
 
 });
