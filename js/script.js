@@ -23,12 +23,6 @@ $(document).ready(function() {
     return Math.floor(Math.random() * max);
   };
 
-  //Picks a random number between zero and the number of photos
-  //Deprecated function. To be removed soon.
-  Tracker.prototype.pickRandomPhoto = function() {
-    return this.generateRandom(photos.length);
-  };
-
   //Returns an img element for a random photo
   Tracker.prototype.renderRandomPhoto = function() {
     var random = this.generateRandom(photos.length);

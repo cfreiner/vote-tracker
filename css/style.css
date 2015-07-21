@@ -15,7 +15,6 @@ h1 {
 }
 
 button {
-/*  visibility: hidden;*/
   margin: auto;
   width: 99px;
   height: 66px;
@@ -38,6 +37,6 @@ button {
 }
 
 canvas {
-  margin: auto;
+ /* margin: auto;*/
 }
 
