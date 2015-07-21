@@ -15,7 +15,7 @@ h1 {
 }
 
 button {
-  visibility: hidden;
+/*  visibility: hidden;*/
   margin: auto;
   width: 99px;
   height: 66px;
