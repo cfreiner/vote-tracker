@@ -16,6 +16,7 @@ $(document).ready(function() {
     }
     this.renderComparison();
     this.renderChart();
+    this.renderSideChart();
   };
 
   //Generated a random number between zero and max
@@ -26,7 +27,7 @@ $(document).ready(function() {
   //Returns an img element for a random photo
   Tracker.prototype.renderRandomPhoto = function() {
     var random = this.generateRandom(photos.length);
-    var photo = '<img src="' + photos[random][0].url + '" />' + photos[random][1];
+    var photo = '<img src="' + photos[random][0].url + '" />';
     return photo;
   };
 
@@ -71,6 +72,29 @@ $(document).ready(function() {
       theChart.destroy();
     }
     theChart = new Chart(votes).Bar(chartData);
+  };
+
+  var horizontalChart;
+  Tracker.prototype.renderSideChart = function() {
+    var voteArray = [];
+    var labelArray = [];
+    for(var i = 0; i < photos.length; i++) {
+      voteArray[i] = this.getVotes(photos[i][0].url);
+      labelArray[i] = "Cat " + (i+1);
+    }
+    var chartData = {
+      labels: labelArray,
+      datasets: [
+        {
+          fillColor: "orange",
+          strokeColor: "black",
+          data: voteArray
+        }
+      ]
+    };
+    var options = {barStrokeWidth : 1, barValueSpacing : 5}
+    var ctx = document.getElementById("sideBar").getContext("2d");
+    horizontalChart = new Chart(ctx).HorizontalBar(chartData, options);
   };
 
   //Gets the index of a photo in the array with a particular url.
@@ -118,6 +142,7 @@ $(document).ready(function() {
   $('button').click(function() {
     $('button').hide();
     tracker.renderComparison();
+    tracker.renderSideChart();
     tracker.renderChart();
   });
 
