@@ -13,7 +13,6 @@ $(document).ready(function() {
   .done(function(response) {
     photos = response.data.images;
     tracker = new Tracker();
-    console.log(photos);
   })
   .fail(function(error) {
     console.log(error);
