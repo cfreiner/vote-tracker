@@ -3,7 +3,9 @@ $(document).ready(function() {
   var photos = [];
   var tracker;
 
- $.ajax({
+  //Code based on Sam Hamm's example
+  //Ajax used to get images from the imgur album
+  $.ajax({
     url: 'https://api.imgur.com/3/album/DDoWy.json',
     method: 'GET',
     headers: {
@@ -12,7 +14,7 @@ $(document).ready(function() {
   })
   .done(function(response) {
     photos = response.data.images;
-    tracker = new Tracker();
+    tracker = new Tracker(); //Only instantiate the tracker if the Ajax call succeeds
   })
   .fail(function(error) {
     console.log(error);
@@ -48,11 +50,12 @@ $(document).ready(function() {
   };
 
   //Add a photo to the array along with an int for counting votes.
-  Photo.prototype.addPhoto = function() {
-    var photoArray = [this,0];
-    photos.push(photoArray);
-  };
+  // Photo.prototype.addPhoto = function() {
+  //   var photoArray = [this,0];
+  //   photos.push(photoArray);
+  // };
 
+  //Add a photo to the array along with an int for counting votes.
   Tracker.prototype.addPhoto = function(photo, index) {
     var photoArray = [photo, 0];
     photos[index] = photoArray;
@@ -170,7 +173,6 @@ $(document).ready(function() {
   //Attaches an event listener to the images on the page
   var highlight = function() {
     $('img').click(function(e) {
-      $('button').show();
       var url = e.target.getAttribute("src");
       var currentCat = e.target.parentNode.id;
       var otherCat;
@@ -204,7 +206,13 @@ $(document).ready(function() {
           }
           break;
       }
+      if($("#photo1 img").hasClass("highlight") || $("#photo2 img").hasClass("highlight")) {
+        $('button').show();
+      } else {
+        $('button').hide();
+      }
       tracker.renderChart();
+      tracker.renderSideChart();
     });
   };
 
