@@ -9,7 +9,7 @@ $(document).ready(function() {
 
   var Tracker = function() {
     photos = this.loadLocalData();
-    if(!photos) {
+    if(!photos || photos == []) {
       photos = [];
       console.log("in the no photos loop");
       initializePhotos();
@@ -61,7 +61,7 @@ $(document).ready(function() {
       labels: ["Cat 1", "Cat 2"],
       datasets: [
         {
-          fillColor: "orange",
+          fillColor: "#ff530d",
           strokeColor: "black",
           data: [votes1, votes2]
         }
@@ -86,7 +86,7 @@ $(document).ready(function() {
       labels: labelArray,
       datasets: [
         {
-          fillColor: "orange",
+          fillColor: "#ff530d",
           strokeColor: "black",
           data: voteArray
         }

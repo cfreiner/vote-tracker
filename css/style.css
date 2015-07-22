@@ -1,25 +1,63 @@
 body {
   font-family: Roboto;
+  background-color: #3f5765;
+  margin: 0px;
 }
 
 header {
   text-align: center;
+  height: 100px;
+}
+
+footer {
+  height: 100px;
 }
 
 h1 {
   font-size: 3em;
+  color: #efefef;
+  text-shadow: 0px 2px black;
+}
+
+h3 {
+  color: #2b3a42;
+  text-shadow: 0px 1px #efefef;
 }
 
 .highlight {
   border: 5px solid red;
+  -webkit-transform: scale(1.15);
+    -moz-transform: scale(1.15);
+      -o-transform: scale(1.15);
+        transform: scale(1.15);
 }
 
 button {
-  margin: auto;
+  display: block;
   width: 99px;
   height: 66px;
   font-size: 2em;
-  display: block;
+  font-weight: bold;
+  border: 2px solid efefef;
+  border-radius: 4px;
+  box-shadow: -2px 5px 1px rgba(0, 0, 0, .5);
+  text-shadow: 0px 2px black;
+  background-color: #3f5765;
+  color: #efefef;
+  margin: 20px auto;
+}
+
+button:hover {
+  background-color: #2b3a42;
+}
+
+/*Inspired by the Shay Howe transitions tutorial*/
+button:active {
+  box-shadow: 0 2px 0 rgba(0, 0, 0, .5);
+  -webkit-transform: translate(-2px, 4px);
+    -moz-transform: translate(-2px, 4px);
+      -o-transform: translate(-2px, 4px);
+        transform: translate(-2px, 4px);
 }
 
 #photo1, #photo2 {
@@ -27,14 +65,23 @@ button {
   width: 250px;
   height: 250px;
   margin: auto;
-  border: 2px solid black;
-  border-radius: 2px;
+  padding: 50px 50px 0px 50px;
 }
 
 #photos {
-  width: 90%;
+  height: 425px;
   margin: auto;
   text-align: center;
+  background-color: #bdd4de;
+  border: 1px solid #efefef;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
+  padding-top: 30px;
+}
+
+img {
+  border: 2px solid #efefef;
+  border-radius: 2px;
+  box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
 }
 
 /*Credit for this animation to Morgan Bailey at Codepen*/
@@ -45,12 +92,13 @@ aside {
   position: fixed;
   left: 15px;
   top: 10px;
-  background-color: white;
+  background-color: #bdd4de;
   display: inline-block;
   transform: translate(-100%);
   transition: transform .2s linear;
   box-shadow: 3px 0 5px rgba(0, 0, 0, .5);
+  border: 1px solid #efefef;
 }
 
-aside:hover {transform: translate(0);}
+aside:hover {transform: translate(-15px);}
 
