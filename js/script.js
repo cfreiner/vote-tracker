@@ -9,7 +9,7 @@ $(document).ready(function() {
 
   var Tracker = function() {
     photos = this.loadLocalData();
-    if(!photos.length) {
+    if(!photos) {
       photos = [];
       console.log("in the no photos loop");
       initializePhotos();
