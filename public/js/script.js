@@ -1,18 +1,35 @@
 $(document).ready(function() {
 
   var photos = [];
+  var tracker;
+
+ $.ajax({
+    url: 'https://api.imgur.com/3/album/DDoWy.json',
+    method: 'GET',
+    headers: {
+      'Authorization': 'Client-ID 4dcb72e91ca957f'
+    }
+  })
+  .done(function(response) {
+    photos = response.data.images;
+    tracker = new Tracker();
+    console.log(photos);
+  })
+  .fail(function(error) {
+    console.log(error);
+  });
 
   var Photo = function(url) {
     this.url = url;
-    this.addPhoto();
   };
 
   var Tracker = function() {
-    photos = this.loadLocalData();
-    if(!photos || photos == []) {
-      photos = [];
-      console.log("in the no photos loop");
-      initializePhotos();
+    console.log("creating tracker");
+    this.initializePhotos();
+    var toLoad = this.loadLocalData();
+    if(toLoad) {
+      console.log("loading local data");
+      photos = this.loadLocalData();
     }
     this.renderComparison();
     this.renderChart();
@@ -36,6 +53,11 @@ $(document).ready(function() {
     var photoArray = [this,0];
     photos.push(photoArray);
   };
+
+  Tracker.prototype.addPhoto = function(photo, index) {
+    var photoArray = [photo, 0];
+    photos[index] = photoArray;
+  }
 
   //Display two random photos
   Tracker.prototype.renderComparison = function() {
@@ -189,13 +211,13 @@ $(document).ready(function() {
 
   //Initialize the photo array with the preset photos.
   //For use if there is no local data to go from, or to reset the game.
-  var initializePhotos = function() {
-    for(var i = 0; i <= 13; i++) {
-      var photoURL = "img/" + i + ".jpg";
+  Tracker.prototype.initializePhotos = function() {
+    console.log("initializing the array");
+    for(var i = 0; i < photos.length; i++) {
+      var photoURL = photos[i].link;
       var photo = new Photo(photoURL);
+      this.addPhoto(photo, i);
     };
   };
-
-  var tracker = new Tracker();
 
 });
