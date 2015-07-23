@@ -50,12 +50,6 @@ $(document).ready(function() {
   };
 
   //Add a photo to the array along with an int for counting votes.
-  // Photo.prototype.addPhoto = function() {
-  //   var photoArray = [this,0];
-  //   photos.push(photoArray);
-  // };
-
-  //Add a photo to the array along with an int for counting votes.
   Tracker.prototype.addPhoto = function(photo, index) {
     var photoArray = [photo, 0];
     photos[index] = photoArray;
@@ -86,7 +80,7 @@ $(document).ready(function() {
       datasets: [
         {
           fillColor: "#ff530d",
-          strokeColor: "black",
+          strokeColor: "#2b3a42",
           data: [votes1, votes2]
         }
       ]
